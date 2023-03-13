@@ -58,11 +58,11 @@ if check_password():
 
     @st.cache_resource
     def access_sheet(sheet_name: str):
-        '''
+        """
         Access the Google's sheets.
         :param sheet_name:
         :return:
-        '''
+        """
 
         scope = ['https://spreadsheets.google.com/feeds',
                  'https://www.googleapis.com/auth/drive']
@@ -76,10 +76,10 @@ if check_password():
         return sheet
 
     def get_max_num_tokens() -> int:
-        '''
+        """
         The maximum number of tokens a pre-trained NLP model can take.
         :return:
-        '''
+        """
 
         return 2046
 
@@ -101,7 +101,7 @@ if check_password():
         chosen_sections_len = 0
 
         header = '''
-You are an ESL teacher answering students' questions. Replay as an ESL teacher.
+You are an ESL teacher answering students' questions. Reply as an ESL teacher.
 
 Example conversion:
         
@@ -123,8 +123,51 @@ and finally respond everything in two different languages, one by one, English a
         return prompt
 
     def record_question_answer(user, query, answer):
-        '''
+        """
         record the query, prompt and answer in the database (google sheet).
-        '''
+        """
 
         sheet = access_sheet('Q&A')
+        data = sheet.get_all_values()
+        df = pd.DataFrame(data[1:], columns=['user', 'date', 'query', 'answer'])
+        num_records = len(df)
+        today_str = datetime.datetime.strftime(datetime.datetime.today(), '%Y-%m-%d')
+        sheet.update_cell(num_records+2, 1, user)
+        sheet.update_cell(num_records+2, 2, today_str)
+        sheet.update_cell(num_records+2, 3, query)
+        sheet.update_cell(num_records+2, 4, answer)
+
+    def chat_with_chatgpt(query, method):
+        """
+        Use a pre-trained NLP method to answer a question. The function also records the query, the prompt, and the
+        answer in the database.
+        :param query: str
+            Query
+        :param method:  str
+            Method indicates which model to use, either 'openai' for using the OpenAPI for 'text-embedding-ada-002' or
+            'huggingface' for using locally 'paraphrase-MiniLM-L6-v2'. In the former case, the output is only a string
+            that will be used via the API. in the latter case, it is an actual model object.
+        :return:
+        answer: str
+            Answer from the model.
+        prompt: str
+            Actual prompt built.
+        """
+
+        prompt = construct_prompt(query, method)
+
+        COMPLETIONS_MODEL = 'text-davinc-003'
+
+        response = openai.Completion.create(
+            prompt=prompt,
+            temperature=0.9,
+            max_tokens=300,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+            model=COMPLETIONS_MODEL
+        )
+
+        answer = response['choices'][0]['text'].strip(' \n')
+
+        return answer, prompt
