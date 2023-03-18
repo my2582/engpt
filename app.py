@@ -22,7 +22,7 @@ def check_password() -> bool:
         """
         Checks whether a password entered by the user is correct.
         """
-        if st.session_state['username'] in st.secrets['password'] and \
+        if st.session_state['username'] in st.secrets['passwords'] and \
                 st.session_state['password'] == st.secrets['passwords'][st.session_state['username']]:
             st.session_state['password_correct'] = True
             del st.session_state['password']  # Never store password
