@@ -1,0 +1,5 @@
+google-auth==2.16.2
+gspread==5.7.2
+openai==0.27.2
+transformers==4.27.1
+pandas==1.5.3

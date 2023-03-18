@@ -52,6 +52,16 @@ if check_password():
         st.subheader('24/7 지치지 않는 원어민을 준비했어요.')
         st.markdown('EngChat with ChatGPT는 openai가 공개한 ChatGPT 3.5 turbo API를 사용하여 한국인 영어 교육을 위해 개발되었어요.')
 
+    method = 'openai'
+
+    if 'generated' not in st.session_state:
+        st.session_state['generated'] = []
+
+    if 'past' not in st.session_state:
+        st.session_state['past'] = []
+
+    init_msg = 'Chat with me, and your English will improve.'
+
     @st.cache_resource
     def load_tokenizer():
         return GPT2TokenizerFast.from_pretrained('gpt2')
@@ -171,3 +181,22 @@ and finally respond everything in two different languages, one by one, English a
         answer = response['choices'][0]['text'].strip(' \n')
 
         return answer, prompt
+
+    def get_text(init_msg):
+        input_text = st.text_input('You ', init_msg, key='input')
+        return input_text
+
+    user_input = get_text(init_msg=init_msg)
+
+    if user_input:
+        answer, prompt = chat_with_chatgpt()
+
+        st.session_state.past.append(user_input, method)
+        st.session_state.generated.append(answer)
+
+        if user_input != init_msg:
+            record_question_answer(st.session_state['kept_username'], user_input, answer)
+
+    if st.session_state['generated']:
+        for i in range(len(st.session_state['generated'])-1, -1, -1):
+            message(st.session_statep)
