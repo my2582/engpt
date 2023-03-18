@@ -62,6 +62,7 @@ if check_password():
 
     init_msg = 'Chat with me, and your English will improve.'
 
+
     @st.cache_resource
     def load_tokenizer():
         return GPT2TokenizerFast.from_pretrained('gpt2')
@@ -186,10 +187,11 @@ and finally respond everything in two different languages, one by one, English a
         input_text = st.text_input('You ', init_msg, key='input')
         return input_text
 
+
     user_input = get_text(init_msg=init_msg)
 
     if user_input:
-        answer, prompt = chat_with_chatgpt()
+        answer, prompt = chat_with_chatgpt(query=user_input, method=method)
 
         st.session_state.past.append(user_input, method)
         st.session_state.generated.append(answer)
