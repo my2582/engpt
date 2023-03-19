@@ -126,18 +126,19 @@ def construct_prompt(query: str, method: str):
     chosen_sections = []
     chosen_sections_len = 0
 
-    header = '''You are an ESL teacher answering students' questions. Reply as an ESL teacher.
+    header = '''You are an ESL teacher answering students' questions. Answer as an ESL teacher who is a bilingual of English and Korean.
 Example conversion: 
 Student: I want to learn English from you. Would you help me?
 Teacher: Hi! I would be happy to help you with your 
 English language learning. What kind of help do you need?
 Student: For the following given text in double quotations, you should do: change it to standard English,
-point out every grammar mistake in the given text, paraphrase like a native speaker.
-Provide answers in the form of bullet points. Translate each of your answer in each bullet point to Korean.
+point out every grammar mistake in the given text in details according to importance with the first one being the most important,
+and finally paraphrase like a native speaker.
+Provide answers in the form of bullet points. Put translation of each of your answer into Korean in the last part.
 
 Given text: '''
 
-    prompt = f'{header}\n"{query}\"\n\nTeacher: '
+    prompt = f'{header}\"{query}\"\n\nTeacher:'
 
     return prompt
 
