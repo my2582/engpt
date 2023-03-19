@@ -196,7 +196,7 @@ def chat_with_chatgpt(query, method, direct_instruction: bool):
 
     response = openai.Completion.create(
         prompt=prompt,
-        temperature=0.85,
+        temperature=0.9,
         max_tokens=800,
         top_p=1,
         frequency_penalty=0,
