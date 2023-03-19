@@ -224,7 +224,7 @@ def get_text(init_msg):
     return input_text
 
 
-col1, col2 = st.columns([1,1])
+col1, col2 = st.beta_columns((1,1))
 
 with col1:
     st.button('나한테 아무 질문이나 해 줘.', on_click=on_ask_me_question)
