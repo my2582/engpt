@@ -174,6 +174,7 @@ def chat_with_chatgpt(query, method, direct_instruction: bool):
 
     if st.session_state['direct_instruction']:
         prompt = st.session_state['direct_msg']
+        st.session_state['direct_instruction'] = False
     else:
         prompt = construct_prompt(query, method)
 
@@ -201,7 +202,8 @@ def on_clear_input_text():
 
 def on_ask_me_question():
     st.session_state['direct_instruction'] = True
-    st.session_state['direct_msg'] = 'I am your student. You are an ESL teacher. To begin with, ask me any question.'
+    st.session_state['direct_msg'] = 'Ask me any casual question, which may encourage me to continue casual ' \
+                                     'conversation with you.'
 
 
 def get_text(init_msg):
@@ -212,10 +214,10 @@ def get_text(init_msg):
 st.button('나한테 아무 질문이나 해 줘.', on_click=on_ask_me_question)
 st.button('입력란 지워 줘.', on_click=on_clear_input_text)
 
-if not st.session_state['direct_instruction']:
-    user_input = get_text(init_msg=init_msg)
-    user_input = user_input.strip()
-else:
+user_input = get_text(init_msg=init_msg)
+user_input = user_input.strip()
+
+if st.session_state['direct_instruction']:
     user_input = st.session_state['direct_msg']
 
 if user_input and user_input != '':
