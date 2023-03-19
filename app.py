@@ -194,7 +194,7 @@ and finally respond everything in two different languages, one by one, English a
     if user_input:
         answer, prompt = chat_with_chatgpt(query=user_input, method=method)
 
-        st.session_state.past.append(user_input, method)
+        st.session_state.past.append(user_input)
         st.session_state.generated.append(answer)
 
         if user_input != init_msg:
