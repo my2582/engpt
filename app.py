@@ -44,12 +44,13 @@ def check_password() -> bool:
     else:
         return True
 
+
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-local_css("./css/style.css")
 
+local_css("./css/style.css")
 
 # if check_password():
 #     if 'kept_username' not in st.session_state:
