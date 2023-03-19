@@ -69,11 +69,7 @@ st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
 # st.markdown('- 클래식 음악을 들을 때 좋아한다는 것을 영어의 원어민으로 더 자연스럽게 말하면, \"나는 클래식 음악을 좋아하고 들으려고 한다\" 정도 라고 할 수 있습니다.')
 # st.markdown('\nChatGPT에게 명령 내리기: 아래 버튼을 누르세요.')
 
-styled_text = '''<h1>EngChat with ChatGPT</h1>
-
-<h1>: 영어, 이제 ChatGPT에게 배우세요.</h1>
-
-<hr />
+styled_text = '''<hr />
 <h2>지치지 않는 원어민 AI를 준비했어요. ChatGPT에게 문법적 오류와 자연스러운 원어민 표현을 배워 보세요.</h2>
 
 <h3>입력 예시)</h3>
@@ -83,7 +79,7 @@ styled_text = '''<h1>EngChat with ChatGPT</h1>
 <pre>
 <code class="language-json">I like Clasic music to listen.</code></pre>
 
-<table border="0" cellpadding="1" cellspacing="1" style="width:500px">
+<table border="0" cellpadding="1" cellspacing="1" style="width:400px">
 	<tbody>
 		<tr>
 			<td style="width:92px"><img alt="profile" src="https://api.dicebear.com/5.x/bottts/svg?seed=88" style="height:60px; width:60px" /></td>
@@ -99,7 +95,8 @@ styled_text = '''<h1>EngChat with ChatGPT</h1>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" style="text-align:right; width:92px"><img alt="profile" src="https://api.dicebear.com/5.x/avataaars/svg?seed=88" style="float:right; height:60px; width:60px" />I like Clasic music to listen.&nbsp; &nbsp; &nbsp;</td>
+			<td style="text-align:right; width:92px">&nbsp; &nbsp; &nbsp;</td>
+			<td style="text-align:right; width:92px"><img alt="profile" src="https://api.dicebear.com/5.x/avataaars/svg?seed=88" style="float:right; height:60px; width:60px" />I like Clasic music to listen.</td>
 		</tr>
 	</tbody>
 </table>
@@ -174,16 +171,16 @@ def construct_prompt(query: str,  method: str):
     chosen_sections = []
     chosen_sections_len = 0
 
-    header = '''
-You are an ESL teacher answering students' questions. Reply as an ESL teacher.
-Example conversion:
-Student: Hi!
-Teacher: Hi there! How can I help you?
+    header = '''You are an ESL teacher answering students' questions. Reply as an ESL teacher.
+Example conversion: 
 Student: I want to learn English from you. Would you help me?
-Teacher: Hi! I would be happy to help you with your English language learning. What kind of help do you need?
-Student: For the following text in double quotations, you should do: change it to standard English,
-point out every grammar mistake, paraphrase like a native speaker.
-Provide answers in the form of bullet points. Translate all of your answers to Korean separately.'''
+Teacher: Hi! I would be happy to help you with your 
+English language learning. What kind of help do you need?
+Student: For the following given text in double quotations, you should do: change it to standard English,
+point out every grammar mistake in the given text, paraphrase like a native speaker.
+Provide answers in the form of bullet points. Translate each of your answer in each bullet point to Korean.
+
+Given text: '''
 
     prompt = f'{header}\n"{query}\"\n\nTeacher: '
 
