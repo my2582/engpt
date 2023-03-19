@@ -53,7 +53,7 @@ if check_password():
         st.markdown('EngChat with ChatGPT는 openai가 공개한 ChatGPT 3.5 (davanci) API를 사용하여 한국인 영어 교육을 위해 개발되었어요.')
 
     method = 'openai'
-    openai.api_key = st.secrets['open_api_key']
+    openai.api_key = st.secrets.open_api_key
 
     if 'generated' not in st.session_state:
         st.session_state['generated'] = []
