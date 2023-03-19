@@ -49,10 +49,11 @@ if check_password():
 
         st.set_page_config(page_title = "서툰 영어로 말해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
         st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
-        st.subheader('24/7 지치지 않는 원어민을 준비했어요.')
-        st.markdown('EngChat with ChatGPT는 openai가 공개한 ChatGPT 3.5 turbo API를 사용하여 한국인 영어 교육을 위해 개발되었어요.')
+        st.subheader('24/7 지치지 않는 원어민 AI를 준비했어요.')
+        st.markdown('EngChat with ChatGPT는 openai가 공개한 ChatGPT 3.5 (davanci) API를 사용하여 한국인 영어 교육을 위해 개발되었어요.')
 
     method = 'openai'
+    openai.api_key = st.secrets['open_api_key']
 
     if 'generated' not in st.session_state:
         st.session_state['generated'] = []
@@ -104,7 +105,7 @@ if check_password():
         :return:
         '''
 
-        MAX_SECTION_LEN =  get_max_num_tokens()
+        MAX_SECTION_LEN = get_max_num_tokens()
         SEPARATOR = '\n* '
         tokenizer = load_tokenizer()
         separator_len = len(tokenizer.tokenize(SEPARATOR))
@@ -129,7 +130,7 @@ Student: For the following text in double quotations, do: answer, change it to s
 point out every grammar mistake, paraphrase to make it sound more natural to English native speakers,
 and finally respond everything in two different languages, one by one, English and Korean.'''
 
-        prompt = f'{header}\n\n{prompt}\n'
+        prompt = f'{header}\n\n{prompt}\n\nStudent: {query}\n\nTeacher: '
 
         return prompt
 
@@ -167,7 +168,7 @@ and finally respond everything in two different languages, one by one, English a
 
         prompt = construct_prompt(query, method)
 
-        COMPLETIONS_MODEL = 'text-davinc-003'
+        COMPLETIONS_MODEL = 'text-davinci-003'
 
         response = openai.Completion.create(
             prompt=prompt,
