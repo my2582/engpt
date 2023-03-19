@@ -130,7 +130,7 @@ Student: For the following text in double quotations, do: answer, change it to s
 point out every grammar mistake, paraphrase to make it sound more natural to English native speakers,
 and finally respond everything in two different languages, one by one, English and Korean.'''
 
-        prompt = f'{header}\n\n{prompt}\n\nStudent: {query}\n\nTeacher: '
+        prompt = f'{header}\n\n{prompt}\n\nStudent: \"{query}\"\n\nTeacher: '
 
         return prompt
 
