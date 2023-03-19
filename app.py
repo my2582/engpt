@@ -202,4 +202,5 @@ and finally respond everything in two different languages, one by one, English a
 
     if st.session_state['generated']:
         for i in range(len(st.session_state['generated'])-1, -1, -1):
-            message(st.session_statep)
+            message(st.session_state['generated'][i], key=str(i), avatar_style='bottts')
+            message(st.session_state['past'][i], is_user=True, key=str(i)+'_user', avatar_style='avataaars')
