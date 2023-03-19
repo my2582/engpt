@@ -31,8 +31,8 @@ def check_password() -> bool:
 
     if 'password_correct' not in st.session_state:
         # First run, show inputs for username + password.
-        st.text_input('아이디(ID)', on_change=password_entered, key='username')
-        st.text_input('비밀번호', type='password', on_change=password_entered, key='password')
+        st.text_input('아이디(ID)', value='a', on_change=password_entered, key='username')
+        st.text_input('비밀번호', value='a', type='password', on_change=password_entered, key='password')
         return False
     elif not st.session_state['password_correct']:
         st.text_input('아이디(ID)', on_change=password_entered, key='username')
