@@ -49,25 +49,67 @@ def check_password() -> bool:
 #         st.session_state['kept_username'] = st.session_state['username']
 st.session_state['kept_username'] = random.random()
 
-st.set_page_config(page_title = "서툰 영어를 해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
+st.set_page_config(page_title = 'EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
 st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
-st.subheader('지치지 않는 원어민 AI를 준비했어요.')
-st.markdown('\nChatGPT에게 문법적 오류와 자연스러운 원어민 표현을 배워 보세요.')
-st.markdown('입력 예) I like Clasic music to listen.')
-st.markdown('ChatGPT 답')
-st.markdown('Change it to standard English:')
-st.markdown('- The sentence should be \"I like to listen to classical music.\"')
-st.markdown('\nPoint out every grammar mistake:')
-st.markdown('-There is no verb after \"I like\".')
-st.markdown('The word \"Clasic\" should be spelled \"Classical\".')
-st.markdown('\nParaphrase to make it sound more natural to English native speakers:')
-st.markdown('I\'m a fan of classical music and enjoy listening to it.')
-st.markdown('Translate all of your answers to Korean:')
-st.markdown('- 나는 클래식 음악을 들으려고 한다.')
-st.markdown('- 빈칸에는 동사가 필요합니다.')
-st.markdown('- 클래식은 클래시컬이라고 철자해야 합니다.')
-st.markdown('- 클래식 음악을 들을 때 좋아한다는 것을 영어의 원어민으로 더 자연스럽게 말하면, \"나는 클래식 음악을 좋아하고 들으려고 한다\" 정도 라고 할 수 있습니다.')
-st.markdown('\nChatGPT에게 명령 내리기: 아래 버튼을 누르세요.')
+# st.subheader('지치지 않는 원어민 AI를 준비했어요.')
+# st.markdown('\nChatGPT에게 문법적 오류와 자연스러운 원어민 표현을 배워 보세요.')
+# st.markdown('입력 예) I like Clasic music to listen.')
+# st.markdown('ChatGPT 답')
+# st.markdown('Change it to standard English:')
+# st.markdown('- The sentence should be \"I like to listen to classical music.\"')
+# st.markdown('\nPoint out every grammar mistake:')
+# st.markdown('-There is no verb after \"I like\".')
+# st.markdown('The word \"Clasic\" should be spelled \"Classical\".')
+# st.markdown('\nParaphrase like a native speaker:')
+# st.markdown('I\'m a fan of classical music and enjoy listening to it.')
+# st.markdown('Translate all of your answers to Korean:')
+# st.markdown('- 나는 클래식 음악을 들으려고 한다.')
+# st.markdown('- 빈칸에는 동사가 필요합니다.')
+# st.markdown('- 클래식은 클래시컬이라고 철자해야 합니다.')
+# st.markdown('- 클래식 음악을 들을 때 좋아한다는 것을 영어의 원어민으로 더 자연스럽게 말하면, \"나는 클래식 음악을 좋아하고 들으려고 한다\" 정도 라고 할 수 있습니다.')
+# st.markdown('\nChatGPT에게 명령 내리기: 아래 버튼을 누르세요.')
+
+styled_text = '''<h1>EngChat with ChatGPT</h1>
+
+<h1>: 영어, 이제 ChatGPT에게 배우세요.</h1>
+
+<hr />
+<h2>지치지 않는 원어민 AI를 준비했어요. ChatGPT에게 문법적 오류와 자연스러운 원어민 표현을 배워 보세요.</h2>
+
+<h3>입력 예시)</h3>
+
+<p>입력란:</p>
+
+<pre>
+<code class="language-json">I like Clasic music to listen.</code></pre>
+
+<table border="0" cellpadding="1" cellspacing="1" style="width:500px">
+	<tbody>
+		<tr>
+			<td style="width:92px"><img alt="profile" src="https://api.dicebear.com/5.x/bottts/svg?seed=88" style="height:60px; width:60px" /></td>
+			<td style="width:394px">
+			<p>- Change it to standard English: I like to listen to classical music.<br />
+			(표준 영어로 바꾸기)</p>
+
+			<p>- Point out every grammar mistake: &quot;Clasic&quot; should be spelled &quot;Classical&quot;, and the verb needs an auxiliary verb: &quot;I like to listen to classical music.&quot;<br />
+			(문법적 오류 교정하기)</p>
+
+			<p>- Paraphrase like a native speaker: I&#39;m really into classical music and enjoy listening to it.<br />
+			(자연스러운 원어민 표현)</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align:right; width:92px"><img alt="profile" src="https://api.dicebear.com/5.x/avataaars/svg?seed=88" style="float:right; height:60px; width:60px" />I like Clasic music to listen.&nbsp; &nbsp; &nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+<hr />
+<h3><strong>이제 시작</strong></h3>
+
+<p>ChatGPT 도움 받기: 할 말이 잘 생각나지 않는다면 아래 버튼을 눌러 주세요!</p>'''
+# Show the styled text using st.markdown
+st.markdown(styled_text, unsafe_allow_html=True)
 
 method = 'openai'
 openai.api_key = st.secrets['open_ai_key']
@@ -134,20 +176,14 @@ def construct_prompt(query: str,  method: str):
 
     header = '''
 You are an ESL teacher answering students' questions. Reply as an ESL teacher.
-
 Example conversion:
-    
 Student: Hi!
-    
 Teacher: Hi there! How can I help you?
-    
 Student: I want to learn English from you. Would you help me?
-    
 Teacher: Hi! I would be happy to help you with your English language learning. What kind of help do you need?
-
-Student: For the following text in double quotations, do: change it to standard English,
-point out every grammar mistake, paraphrase to make it sound more natural to English native speakers.
-Answer in bullet points. Translate all of your answers to Korean in a separate answer.'''
+Student: For the following text in double quotations, you should do: change it to standard English,
+point out every grammar mistake, paraphrase like a native speaker.
+Provide answers in the form of bullet points. Translate all of your answers to Korean separately.'''
 
     prompt = f'{header}\n"{query}\"\n\nTeacher: '
 
