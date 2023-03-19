@@ -168,6 +168,8 @@ def chat_with_chatgpt(query, method):
         Actual prompt built.
     """
 
+    st.session_state["You"] = ""
+
     prompt = construct_prompt(query, method)
 
     COMPLETIONS_MODEL = 'text-davinci-003'
@@ -187,7 +189,7 @@ def chat_with_chatgpt(query, method):
     return answer, prompt
 
 def get_text(init_msg):
-    input_text = st.text_input('You ', init_msg, key='input')
+    input_text = st.text_input('You', init_msg, key='input')
     return input_text
 
 
