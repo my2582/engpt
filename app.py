@@ -168,7 +168,7 @@ def chat_with_chatgpt(query, method):
         Actual prompt built.
     """
 
-    st.session_state["You"] = ""
+    st.session_state['input'] = ''
 
     prompt = construct_prompt(query, method)
 
@@ -195,7 +195,7 @@ def get_text(init_msg):
 
 user_input = get_text(init_msg=init_msg)
 
-if user_input:
+if user_input and user_input != '':
     answer, prompt = chat_with_chatgpt(query=user_input, method=method)
 
     st.session_state.past.append(user_input)
