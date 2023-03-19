@@ -47,10 +47,10 @@ if check_password():
     if 'kept_username' not in st.session_state:
         st.session_state['kept_username'] = st.session_state['username']
 
-        st.set_page_config(page_title = "서툰 영어로 말해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
+        st.set_page_config(page_title = "서툰 영어를 해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
         st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
         st.subheader('24/7 지치지 않는 원어민 AI를 준비했어요.')
-        st.markdown('EngChat with ChatGPT는 openai가 공개한 ChatGPT 3.5 (davanci) API를 사용하여 한국인 영어 교육을 위해 개발되었어요.')
+        st.markdown('예를 들어, I songed a song yesteday. It is very fun. You must learn singing by me.')
 
     method = 'openai'
     openai.api_key = st.secrets['open_ai_key']
@@ -61,7 +61,7 @@ if check_password():
     if 'past' not in st.session_state:
         st.session_state['past'] = []
 
-    init_msg = 'Chat with me, and your English will improve.'
+    init_msg = ''
 
 
     @st.cache_resource
@@ -204,3 +204,4 @@ and finally respond everything in two different languages, one by one, English a
         for i in range(len(st.session_state['generated'])-1, -1, -1):
             message(st.session_state['generated'][i], key=str(i), avatar_style='bottts')
             message(st.session_state['past'][i], is_user=True, key=str(i)+'_user', avatar_style='avataaars')
+
