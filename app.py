@@ -57,7 +57,7 @@ def local_css(file_name):
 #         st.session_state['kept_username'] = st.session_state['username']
 st.session_state['kept_username'] = random.random()
 
-st.set_page_config(page_title='EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
+st.set_page_config(page_title='EngChat with ChatGPT:\n영어, 이제 ChatGPT에게 배우세요.')
 st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
 st.subheader('지치지 않는 원어민 AI를 준비했어요. 문법적 오류와 원어민 표현을 함께 배워 보세요.')
 
@@ -67,7 +67,7 @@ st.image(image, caption='대화 예시')
 method = 'openai'
 openai.api_key = st.secrets['open_ai_key']
 
-st.markdown('이제 시작.')
+st.markdown('시작')
 st.caption('ChatGPT 도움받기: 할 말이 잘 생각나지 않는다면 아래 버튼을 눌러 주세요!')
 
 if 'generated' not in st.session_state:
