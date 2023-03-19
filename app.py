@@ -51,9 +51,23 @@ st.session_state['kept_username'] = random.random()
 
 st.set_page_config(page_title = "서툰 영어를 해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
 st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
-st.subheader('24/7 지치지 않는 원어민 AI를 준비했어요.')
-st.markdown('ChatGPT에게 명령 내리기: 아래 버튼을 누르세요.')
-st.markdown('ChatGPT에게 자연스러운 표현 배우기: 입력란에 입력한 모든 영어 문장을 자연스러운 표현을 바꿔 줍니다.')
+st.subheader('지치지 않는 원어민 AI를 준비했어요.')
+st.markdown('\nChatGPT에게 문법적 오류와 자연스러운 원어민 표현을 배워 보세요.')
+st.markdown('입력 예) I like Clasic music to listen.')
+st.markdown('ChatGPT 답')
+st.markdown('Change it to standard English:')
+st.markdown('- The sentence should be \"I like to listen to classical music.\"')
+st.markdown('\nPoint out every grammar mistake:')
+st.markdown('-There is no verb after \"I like\".')
+st.markdown('The word \"Clasic\" should be spelled \"Classical\".')
+st.markdown('\nParaphrase to make it sound more natural to English native speakers:')
+st.markdown('I\'m a fan of classical music and enjoy listening to it.')
+st.markdown('Translate all of your answers to Korean:')
+st.markdown('- 나는 클래식 음악을 들으려고 한다.')
+st.markdown('- 빈칸에는 동사가 필요합니다.')
+st.markdown('- 클래식은 클래시컬이라고 철자해야 합니다.')
+st.markdown('- 클래식 음악을 들을 때 좋아한다는 것을 영어의 원어민으로 더 자연스럽게 말하면, \"나는 클래식 음악을 좋아하고 들으려고 한다\" 정도 라고 할 수 있습니다.')
+st.markdown('\nChatGPT에게 명령 내리기: 아래 버튼을 누르세요.')
 
 method = 'openai'
 openai.api_key = st.secrets['open_ai_key']
@@ -131,7 +145,7 @@ Student: I want to learn English from you. Would you help me?
     
 Teacher: Hi! I would be happy to help you with your English language learning. What kind of help do you need?
 
-Student: For the following text in double quotations, do: answer, change it to standard English,
+Student: For the following text in double quotations, do: change it to standard English,
 point out every grammar mistake, paraphrase to make it sound more natural to English native speakers.
 Answer in bullet points. Translate all of your answers to Korean in a separate answer.'''
 
