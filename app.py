@@ -10,6 +10,7 @@ from transformers import GPT2TokenizerFast
 from sentence_transformers import SentenceTransformer
 import datetime
 from streamlit_chat import message
+import random
 
 
 def check_password() -> bool:
