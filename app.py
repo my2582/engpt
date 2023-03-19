@@ -50,7 +50,7 @@ if check_password():
         st.set_page_config(page_title = "서툰 영어를 해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
         st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
         st.subheader('24/7 지치지 않는 원어민 AI를 준비했어요.')
-        st.markdown('예를 들어, I songed a song yesteday. It is very fun. You must learn singing by me.')
+        st.markdown('예를 들어, I songed a song yesteday. It is very fun. You must learn singing by me.란 문장으로 시작해 볼까요?')
 
     method = 'openai'
     openai.api_key = st.secrets['open_ai_key']
@@ -61,7 +61,7 @@ if check_password():
     if 'past' not in st.session_state:
         st.session_state['past'] = []
 
-    init_msg = ''
+    init_msg = 'I songed a song yesteday. It is very fun. You must learn singing by me.'
 
 
     @st.cache_resource
