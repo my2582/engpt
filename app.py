@@ -52,7 +52,9 @@ st.session_state['kept_username'] = random.random()
 st.set_page_config(page_title = "서툰 영어를 해도 문법교정은 물론 자연스러운 표현도 알려 줘요.")
 st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
 st.subheader('24/7 지치지 않는 원어민 AI를 준비했어요.')
-st.markdown('예를 들어, I songed a song yesteday. It is very fun. You must learn singing by me.란 문장으로 시작해 볼까요?')
+st.markdown('ChatGPT에게 명령 내리기: 아래 버튼을 누르세요.')
+st.markdown('ChatGPT에게 자연스러운 표현 배우기: 입력란에 입력한 모든 영어 문장을 자연스러운 표현을 바꿔 줍니다.')
+st.session_state['direct_instruction'] = False
 
 method = 'openai'
 openai.api_key = st.secrets['open_ai_key']
@@ -125,14 +127,13 @@ Teacher: Hi there! How can I help you?
     
 Student: I want to learn English from you. Would you help me?
     
-Teacher: Hi! I would be happy to help you with your English language learning. What kind of help do you need?'''
+Teacher: Hi! I would be happy to help you with your English language learning. What kind of help do you need?
 
-    prompt = '''
 Student: For the following text in double quotations, do: answer, change it to standard English,
-point out every grammar mistake, paraphrase to make it sound more natural to English native speakers,
-and finally respond everything in two different languages, one by one, English and Korean.'''
+point out every grammar mistake, paraphrase to make it sound more natural to English native speakers.
+Answer in bullet points. Translate all of your answers to Korean in a separate answer.'''
 
-    prompt = f'{header}\n\n{prompt}\n\nStudent: \"{query}\"\n\nTeacher: '
+    prompt = f'{header}\n"{query}\"\n\nTeacher: '
 
     return prompt
 
@@ -151,7 +152,7 @@ def record_question_answer(user, query, answer):
     sheet.update_cell(num_records+2, 3, query)
     sheet.update_cell(num_records+2, 4, answer)
 
-def chat_with_chatgpt(query, method):
+def chat_with_chatgpt(query, method, direct_instruction: bool):
     """
     Use a pre-trained NLP method to answer a question. The function also records the query, the prompt, and the
     answer in the database.
@@ -168,14 +169,17 @@ def chat_with_chatgpt(query, method):
         Actual prompt built.
     """
 
-    prompt = construct_prompt(query, method)
+    if st.session_state['direct_instruction']:
+        prompt = st.session_state['direct_msg']
+    else:
+        prompt = construct_prompt(query, method)
 
     COMPLETIONS_MODEL = 'text-davinci-003'
 
     response = openai.Completion.create(
         prompt=prompt,
         temperature=0.9,
-        max_tokens=300,
+        max_tokens=800,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
@@ -187,19 +191,29 @@ def chat_with_chatgpt(query, method):
     return answer, prompt
 
 
-def clear_text():
-    st.session_state.input_widget = ''
+def on_clear_input_text():
+    if str(st.session_state.input_widget):
+        st.session_state.input_widget = ''
 
+
+def on_ask_me_question():
+    st.session_state['direct_instruction'] = True
+    st.session_state['direct_msg'] = 'I am your student. You are an ESL teacher. To begin with, ask me any question.'
 
 def get_text(init_msg):
-    input_text = st.text_input('You', init_msg, key='input_widget')
+    input_text = st.text_input('입력란:', init_msg, key='input_widget')
     return input_text
 
 
+st.button('나한테 아무 질문이나 해 줘.', on_click=on_ask_me_question)
+st.button('입력란 지워 줘.', on_click=on_clear_input_text)
+
 user_input = get_text(init_msg=init_msg)
+user_input = user_input.strip()
+
 
 if user_input and user_input != '':
-    answer, prompt = chat_with_chatgpt(query=user_input, method=method)
+    answer, prompt = chat_with_chatgpt(query=user_input, method=method, direct_instruction=st.session_state['direct_instruction'] )
 
     st.session_state.past.append(user_input)
     st.session_state.generated.append(answer)
