@@ -142,6 +142,7 @@ Student: For the following given text in double quotations, you should do: chang
 point out every grammar mistake in the given text in details according to importance with the first one being the most important,
 and finally paraphrase like a native speaker.
 Provide answers in the form of bullet points. In the last part of your answer, do translate of each of your answer into Korean.
+Make it sure that you do not repeat your answer.
 
 Given text: '''
 
