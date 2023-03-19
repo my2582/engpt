@@ -44,6 +44,12 @@ def check_password() -> bool:
     else:
         return True
 
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+local_css("./css/style.css")
+
 
 # if check_password():
 #     if 'kept_username' not in st.session_state:
@@ -134,7 +140,7 @@ English language learning. What kind of help do you need?
 Student: For the following given text in double quotations, you should do: change it to standard English,
 point out every grammar mistake in the given text in details according to importance with the first one being the most important,
 and finally paraphrase like a native speaker.
-Provide answers in the form of bullet points. Put translation of each of your answer into Korean in the last part.
+Provide answers in the form of bullet points. In the last part of your answer, do translate of each of your answer into Korean.
 
 Given text: '''
 
@@ -188,7 +194,7 @@ def chat_with_chatgpt(query, method, direct_instruction: bool):
 
     response = openai.Completion.create(
         prompt=prompt,
-        temperature=0.9,
+        temperature=0.85,
         max_tokens=800,
         top_p=1,
         frequency_penalty=0,
