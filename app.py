@@ -192,7 +192,7 @@ def clear_text():
 
 
 def get_text(init_msg):
-    input_text = st.text_input('You', init_msg, key='input_widget', on_change=clear_text)
+    input_text = st.text_input('You', init_msg, key='input_widget')
     return input_text
 
 
