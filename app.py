@@ -8,7 +8,7 @@ import openai
 import numpy as np
 from transformers import GPT2TokenizerFast
 from sentence_transformers import SentenceTransformer
-import datetime
+from datetime import date, datetime, timezone, timedelta
 from streamlit_chat import message
 from PIL import Image
 import random
@@ -50,15 +50,13 @@ def check_password() -> bool:
 #         st.session_state['kept_username'] = st.session_state['username']
 st.session_state['kept_username'] = random.random()
 
-st.set_page_config(page_title = 'EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
+st.set_page_config(page_title='EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
 st.title('EngChat with ChatGPT: 영어, 이제 ChatGPT에게 배우세요.')
-st.subheader('지치지 않는 원어민 AI를 준비했어요. 문법적 오류와 원어민 표현을 함께 배워 보세요.')
-st.markdown('사용 예시)')
+st.subheader('지치지 않는 :yellow[원어민 AI]를 준비했어요. **문법적 오류**와 **원어민 표현**을 함께 배워 보세요.')
+st.subheader('사용 예시')
 
 image = Image.open('./images/example_chat.png')
 st.image(image, caption='An example chat')
-
-st.markdown('사용 예시)')
 
 method = 'openai'
 openai.api_key = st.secrets['open_ai_key']
@@ -82,6 +80,7 @@ init_msg = ''
 def load_tokenizer():
     return GPT2TokenizerFast.from_pretrained('gpt2')
 
+
 @st.cache_resource
 def access_sheet(sheet_name: str):
     """
@@ -101,6 +100,7 @@ def access_sheet(sheet_name: str):
 
     return sheet
 
+
 def get_max_num_tokens() -> int:
     """
     The maximum number of tokens a pre-trained NLP model can take.
@@ -109,7 +109,8 @@ def get_max_num_tokens() -> int:
 
     return 2046
 
-def construct_prompt(query: str,  method: str):
+
+def construct_prompt(query: str, method: str):
     '''
     Construct the prompt to answer the query. The prompt is composed of the query from the user.
     :param query: str
@@ -141,6 +142,7 @@ Given text: '''
 
     return prompt
 
+
 def record_question_answer(user, query, answer):
     """
     record the query, prompt and answer in the database (google sheet).
@@ -150,11 +152,13 @@ def record_question_answer(user, query, answer):
     data = sheet.get_all_values()
     df = pd.DataFrame(data[1:], columns=['user', 'date', 'query', 'answer'])
     num_records = len(df)
-    today_str = datetime.datetime.strftime(datetime.datetime.today(), '%Y-%m-%d')
-    sheet.update_cell(num_records+2, 1, user)
-    sheet.update_cell(num_records+2, 2, today_str)
-    sheet.update_cell(num_records+2, 3, query)
-    sheet.update_cell(num_records+2, 4, answer)
+    KST = timezone(timedelta(hours=9))
+    datetime.strftime(datetime.now(KST), '%Y-%m-%d %H:%S:%M')
+    today_str = datetime.strftime(datetime.now(KST), '%Y-%m-%d %H:%S:%M')
+    sheet.update_cell(num_records + 2, 1, user)
+    sheet.update_cell(num_records + 2, 2, today_str)
+    sheet.update_cell(num_records + 2, 3, query)
+    sheet.update_cell(num_records + 2, 4, answer)
 
 
 def chat_with_chatgpt(query, method, direct_instruction: bool):
@@ -213,8 +217,13 @@ def get_text(init_msg):
     return input_text
 
 
-st.button('나한테 아무 질문이나 해 줘.', on_click=on_ask_me_question)
-st.button('입력란 지워 줘.', on_click=on_clear_input_text)
+col1, col2 = st.columns(2)
+
+with col1:
+    st.button('나한테 아무 질문이나 해 줘.', on_click=on_ask_me_question)
+
+with col2:
+    st.button('입력란 지워 줘.', on_click=on_clear_input_text)
 
 user_input = get_text(init_msg=init_msg)
 user_input = user_input.strip()
@@ -223,7 +232,8 @@ if st.session_state['direct_instruction']:
     user_input = st.session_state['direct_msg']
 
 if user_input and user_input != '':
-    answer, prompt = chat_with_chatgpt(query=user_input, method=method, direct_instruction=st.session_state['direct_instruction'] )
+    answer, prompt = chat_with_chatgpt(query=user_input, method=method,
+                                       direct_instruction=st.session_state['direct_instruction'])
 
     st.session_state.past.append(user_input)
     st.session_state.generated.append(answer)
@@ -232,7 +242,6 @@ if user_input and user_input != '':
         record_question_answer(st.session_state['kept_username'], user_input, answer)
 
 if st.session_state['generated']:
-    for i in range(len(st.session_state['generated'])-1, -1, -1):
+    for i in range(len(st.session_state['generated']) - 1, -1, -1):
         message(st.session_state['generated'][i], key=str(i), avatar_style='bottts')
-        message(st.session_state['past'][i], is_user=True, key=str(i)+'_user', avatar_style='avataaars')
-
+        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user', avatar_style='avataaars')
