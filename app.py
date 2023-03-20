@@ -1,6 +1,5 @@
 import os
 import streamlit as st
-from SessionState import _get_state
 import pandas as pd
 from pandas import DataFrame
 from google.oauth2 import service_account
@@ -46,30 +45,10 @@ def check_password() -> bool:
         return True
 
 
-
-st.markdown(""" <style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-</style> """, unsafe_allow_html=True)
-
-padding = 0
-st.markdown(f""" <style>
-    .reportview-container .main .block-container{{
-        padding-top: {padding}rem;
-        padding-right: {padding}rem;
-        padding-left: {padding}rem;
-        padding-bottom: {padding}rem;
-    }} </style> """, unsafe_allow_html=True)
-
-# if check_password():
-#     if 'kept_username' not in st.session_state:
-#         st.session_state['kept_username'] = st.session_state['username']
 st.session_state['kept_username'] = random.random()
 
-state = _get_state()
-st.set_page_config(page_title='EngChat with ChatGPT:영어, 이제 ChatGPT에게 배우세요.', layout='wide',
-                   initial_sidebar_state='expanded')
-state.sync()
+st.set_page_config(page_title='EngChat with ChatGPT:영어, 이제 ChatGPT에게 배우세요.',
+                   layout='wide', initial_sidebar_state='expanded')
 st.title('EngChat with ChatGPT:')
 st.title('영어, 이제 ChatGPT에게 배우세요.')
 st.subheader('지치지 않는 원어민 AI를 준비했어요. 문법적 오류와 원어민 표현을 함께 배워 보세요.')
