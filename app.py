@@ -54,7 +54,8 @@ st.title('영어, 이제 ChatGPT에게 배우세요.')
 st.subheader('지치지 않는 원어민 AI를 준비했어요. 문법적 오류와 원어민 표현을 함께 배워 보세요.')
 
 image = Image.open('./images/example_chat.png')
-st.image(image, caption='대화 예시', use_column_width='auto')
+col1, col2, col3 = st.columns([0.2, 5, 0.2])
+col2.image(image, caption='대화 예시', use_column_width='auto')
 
 method = 'openai'
 openai.api_key = st.secrets['open_ai_key']
