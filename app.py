@@ -45,11 +45,20 @@ def check_password() -> bool:
         return True
 
 
-st.markdown("""<style>
-section[tabindex="0"] {
-    overflow-x: hidden;
-}</style>""", unsafe_allow_html=True)
 
+st.markdown(""" <style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style> """, unsafe_allow_html=True)
+
+padding = 0
+st.markdown(f""" <style>
+    .reportview-container .main .block-container{{
+        padding-top: {padding}rem;
+        padding-right: {padding}rem;
+        padding-left: {padding}rem;
+        padding-bottom: {padding}rem;
+    }} </style> """, unsafe_allow_html=True)
 
 # if check_password():
 #     if 'kept_username' not in st.session_state:
