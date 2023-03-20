@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+from SessionState import _get_state
 import pandas as pd
 from pandas import DataFrame
 from google.oauth2 import service_account
@@ -65,7 +66,10 @@ st.markdown(f""" <style>
 #         st.session_state['kept_username'] = st.session_state['username']
 st.session_state['kept_username'] = random.random()
 
-st.set_page_config(page_title='EngChat with ChatGPT:영어, 이제 ChatGPT에게 배우세요.')
+state = _get_state()
+st.set_page_config(page_title='EngChat with ChatGPT:영어, 이제 ChatGPT에게 배우세요.', layout='wide',
+                   initial_sidebar_state='expanded')
+state.sync()
 st.title('EngChat with ChatGPT:')
 st.title('영어, 이제 ChatGPT에게 배우세요.')
 st.subheader('지치지 않는 원어민 AI를 준비했어요. 문법적 오류와 원어민 표현을 함께 배워 보세요.')
